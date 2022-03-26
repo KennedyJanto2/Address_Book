@@ -15,6 +15,9 @@ Status load_file(AddressBook *address_book)
 	int indexCount = 0;
 	int entries = 0;
 	int column = 0;
+	int currentEntry = 0;
+	int phoneNumbers = 0;
+	int emailAddresses = 0;
 	int i;
 	int j;
 
@@ -45,11 +48,23 @@ Status load_file(AddressBook *address_book)
 	}
 	else{
 
-		printf("Loaded address book successfully.\n");
-
 		for (c = getc(address_book->fp); c != EOF; c = getc(address_book->fp)){
 
-			printf("%c", c);
+        	if (c == '\n'){
+
+            	entries++;
+
+			}
+		
+		}
+
+		fclose(address_book->fp);
+
+		address_book->fp = fopen(DEFAULT_FILE, "r");
+
+		address_book->list = malloc(entries * sizeof(ContactInfo));
+
+		for (c = getc(address_book->fp); c != EOF; c = getc(address_book->fp)){
 
 			switch (column){
 
@@ -58,17 +73,17 @@ Status load_file(AddressBook *address_book)
 
 						case ',':
 								
-							if (strcmp(fileInput, "")){
-								
-								entries++;
-								
-								address_book->count = entries;
+							if (fileInput[0] != '\0'){
 
-								address_book->list = (ContactInfo*)realloc(address_book->list, entries * sizeof(ContactInfo));
+								currentEntry++;
 
-								address_book->list[entries - 1].si_no = entries;
+								phoneNumbers = 0;
+
+								emailAddresses = 0;
+
+								address_book->list[currentEntry - 1].si_no = currentEntry;
 								
-								strcpy(address_book->list[entries - 1].name[0], fileInput);
+								strcpy(address_book->list[currentEntry - 1].name[0], fileInput);
 								
 								strcpy(fileInput, "");
 
@@ -90,23 +105,13 @@ Status load_file(AddressBook *address_book)
 
 						case ',':
 							
-							if (strcmp(fileInput, "")){
+							if (fileInput[0] != '\0'){
+								
+								phoneNumbers++;
+								
+								if (phoneNumbers <= 5){
 
-								indexCount = 0;
-
-								strcpy(indexCheck, "not null");
-
-								for (i = 0; (i < 5) || !strcmp(indexCheck, ""); i++){
-
-									indexCount++;
-
-									strcpy(indexCheck, address_book->list[entries-1].phone_numbers[i]);
-
-								}
-
-								if (indexCount < 5){
-
-									strcpy(address_book->list[entries - 1].phone_numbers[indexCount], fileInput);	
+									strcpy(address_book->list[currentEntry - 1].phone_numbers[phoneNumbers - 1], fileInput);	
 
 								}
 
@@ -129,31 +134,19 @@ Status load_file(AddressBook *address_book)
 					switch (c){
 
 						case '\n':
-							if (strcmp(fileInput, "")){
+							if (fileInput[0] != '\0'){
 
-								indexCount = 0;
+								emailAddresses++;
 
-								strcpy(indexCheck, "not null");
+								if (emailAddresses <= 5){
 
-								for (i = 0; (i < 5) || !strcmp(indexCheck, ""); i++){
-
-									indexCount++;
-
-									strcpy(indexCheck, address_book->list[entries-1].email_addresses[i]);
-
-								}
-
-								if (indexCount < 5){
-
-									strcpy(address_book->list[entries - 1].email_addresses[indexCount], fileInput);	
+									strcpy(address_book->list[currentEntry - 1].email_addresses[emailAddresses - 1], fileInput);	
 
 								}
 
 								strcpy(fileInput, "");
 
 							}
-
-							printf("%s %s %s %d", address_book->list[0].name[0], address_book->list[0].phone_numbers[0], address_book->list[0].email_addresses[0], address_book->list[0].si_no);
 
 							column = 0;
 							break;
@@ -169,44 +162,13 @@ Status load_file(AddressBook *address_book)
 
 		}
         
-		
-		
-  
 	}
-	
-	printf("%d", entries);
 
 	fclose(address_book->fp);
 
-	for (i = 0; i < entries; i++){
+	printf("Loaded address book successfully.\n");
 
-		printf("Contact %d\n", (i + 1));
-
-		printf("Name: %s\n", address_book->list[i].name[0]);
-
-		printf("S Number: %d\n", address_book->list[i].si_no);
-
-		printf("Phone Number(s): ");
-
-		for (j = 0; j < 5 || !strcmp(address_book->list[i].phone_numbers[j], ""); j++){
-
-			printf("%s ", address_book->list[i].phone_numbers[j]);
-
-		}
-
-		printf ("\nEmail Address('): ");
-
-		for (j = 0; j < 5 || !strcmp(address_book->list[i].email_addresses[j], ""); j++){
-
-			printf("%s ", address_book->list[i].email_addresses[j]);
-
-		}
-
-		printf("\n");
-
-	}
-
-	return e_fail;
+	return e_success;
 }
 
 Status save_file(AddressBook *address_book)
