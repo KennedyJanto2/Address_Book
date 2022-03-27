@@ -222,10 +222,6 @@ Status search_contact(AddressBook *address_book)
 	int option;
 	char searchWord;
 
-	FILE *fp, *fp1;
-	fp = fopen("contact.txt", "r+:");
-	fp1 = fopen("temp.txt", "w");
-
 	do{
 		menu_header("Search Contact by: ");
 		printf("0. Back\n");
