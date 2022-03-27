@@ -19,6 +19,42 @@ int get_option(int type, const char *msg)
 	 */ 
 
 	/* Fill the code to add above functionality */
+	if (type == CHAR) // for csv file "save" feature, read character
+	{
+		return fgetc(stdin);
+	}
+	else if (type == NUM)
+	{
+		int on;
+		scanf("%i", &on); // User Input, read number
+		return on;
+	}
+	else
+	{
+		fgetc(stdin);
+		return -1;
+	}
+}
+
+MenuFeatures menu_option() // Feature Menu for Corressponding Number Selection
+{
+	switch (get_option(NUM, "")) // Menu Option Input from integer input to associated function
+	{
+	case 0:
+		return e_exit;
+	case 1:
+		return e_add_contact;
+	case 2: 
+		return e_search_contact;
+	case 3:
+		return e_edit_contact;
+	case 4:
+		return e_delete_contact;
+	case 5:
+		return e_list_contacts;
+	case 6:
+		return e_save;
+	}
 }
 
 Status save_prompt(AddressBook *address_book)
@@ -107,6 +143,7 @@ Status menu(AddressBook *address_book)
 		{
 			case e_add_contact:
 				/* Add your implementation to call add_contacts function here */
+				add_contacts(address_book);
 				break;
 			case e_search_contact:
 				search_contact(address_book);
@@ -134,6 +171,65 @@ Status menu(AddressBook *address_book)
 Status add_contacts(AddressBook *address_book)
 {
 	/* Add the functionality for adding contacts here */
+	int opt = 0;
+	int phn = 0; 
+	int eml = 0;
+	ContactInfo ci;
+	strncpy(*ci.email_addresses, " ", sizeof(ci.email_addresses));
+	do
+	{
+		menu_header("Add Contact:\n");
+		printf("0. Back");
+		printf("\n");
+		printf("1. Name		: %s", ci.name[0]);
+		printf("\n2. Phone No 1	: %s", ci.phone_numbers[0]);
+		printf("\n3. Email ID 1	: %s", ci.email_addresses[0]);
+		printf("\n\nPlease select an option: ");
+		opt = get_option(NUM, "");
+		switch (opt)
+		{
+			case e_first_opt: // Back Option
+				menu(address_book); // Back to Menu
+				break;
+			case e_second_opt: // Name Option
+				printf("Enter name: ");
+				scanf("%s", &ci.name[0][0]); // Name Input
+				break;
+			case e_third_opt: // Phone Number Option
+//				printf("AT PHONE NUMBER");
+				if (phn < PHONE_NUMBER_COUNT)
+				{
+					printf("Enter Phone Number %d: [Please reenter the same option of alternate Phone Number]: ", phn + 1);
+					scanf("%s", &ci.phone_numbers[phn][0]); // Phone Number Input
+					phn++;
+				}
+				else
+				{
+					printf("Maximum Phone Number Amount. Press ENTER: ");
+					getchar();
+				}
+				break;
+			case e_fourth_opt: // Email Option
+// 				printf("AT EMAIL");
+				if (eml < EMAIL_ID_COUNT)
+				{
+					printf("Enter Email ID %d: [Please reenter the same option of the alternate Email ID]: ", eml + 1);
+					scanf("%s", &ci.email_addresses[eml][0]); // Email Input
+					eml++;
+				}
+				else
+				{
+					printf("Maximum Email Amount. Press Enter: ");
+					getchar();
+				}
+				break;
+			}
+			getchar();
+		} while (opt != 0);
+		ci.si_no = address_book->count + 1;
+		address_book->list[address_book->count] = ci;
+		address_book->count++;
+		return e_success;
 }
 
 Status search(const char *str, AddressBook *address_book, int loop_count, int field, const char *msg, Modes mode)
@@ -215,12 +311,14 @@ Status search(const char *str, AddressBook *address_book, int loop_count, int fi
 	printf(":      :                               : %-20i : %-20s :\n", &contact.phone_numbers[0][3], &contact.email_addresses[0][3]);
 	printf(":      :                               : %-20i : %-20s :\n", &contact.phone_numbers[0][4], &contact.email_addresses[0][4]);
 	printf("==================================================================================================================\n");
+
+	return e_success;
 }
 
 Status search_contact(AddressBook *address_book)
 {
 	int option;
-	char searchWord;
+	const char *searchWord;
 
 	do{
 		menu_header("Search Contact by: ");
