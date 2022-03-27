@@ -136,17 +136,88 @@ Status add_contacts(AddressBook *address_book)
 	/* Add the functionality for adding contacts here */
 }
 
-Status search(const char *str, AddressBook *address_book, int loop_count, const char *msg, Modes mode)
+Status search(const char *str, AddressBook *address_book, int loop_count, int field, const char *msg, Modes mode)
 {
-	/* Add the functionality for adding contacts here */
+	int found = 0;
+	ContactInfo contact;
+	switch(field){
+		case 1://search by name
+			for(int i = 0; i < address_book->count; i++){
+				contact = address_book->list[i];
+
+				for(int k = 0; k < NAME_COUNT; k++){
+					if(strcmp(str, &contact.name[k][0]) == 0)// check name
+					{
+						found = 1;
+						k = NAME_COUNT;
+						i = address_book->count;
+						break;
+					}
+				}
+			}
+			break;
+		case 2://search by phone
+			for(int i = 0; i < address_book->count; i++){
+				ContactInfo contact = address_book->list[i];
+
+				for(int k = 0; k < PHONE_NUMBER_COUNT; k++){
+					if(strcmp(str, &contact.phone_numbers[k][0]) == 0)// check phone number
+					{
+						found = 1;
+						k = NAME_COUNT;
+						i = address_book->count;
+						break;
+					}
+				}
+			}
+			break;
+		case 3://search by email
+			for(int i = 0; i < address_book->count; i++){
+				ContactInfo contact = address_book->list[i];
+
+				for(int k = 0; k < EMAIL_ID_COUNT; k++){
+					if(strcmp(str, &contact.email_addresses[k][0]) == 0)// check email id
+					{
+						found = 1;
+						k = NAME_COUNT;
+						i = address_book->count;
+						break;
+					}
+				}
+			}
+			break;
+		case 4://search by serial number
+			for(int i = 0; i < address_book->count; i++){
+				ContactInfo contact = address_book->list[i];
+
+					if(loop_count == contact.si_no) //check serial number
+					{
+						found = 1;
+						i = address_book->count;
+						break;
+					}
+			}
+			break;
+		default:
+			break;
+	}
+
+	//printing results
+	menu_header("Search Results: ");
+	if(found == 0){
+		printf("Contact was not found.\n");
+	}
+	printf("==================================================================================================================\n");
+	printf(": S.No : Name                          : Phone No                          : Email ID                          \n:");
+	printf(": %-5i : %-20s : %-20i : %-20s :\n", contact.si_no, &contact.name[0][0], &contact.phone_numbers[0][0], &contact.email_addresses[0][0]);
+	printf(":      :                               : %-20i : %-20s :\n", &contact.phone_numbers[0][1], &contact.email_addresses[0][1]);
+	printf(":      :                               : %-20i : %-20s :\n", &contact.phone_numbers[0][2], &contact.email_addresses[0][2]);
+	printf(":      :                               : %-20i : %-20s :\n", &contact.phone_numbers[0][3], &contact.email_addresses[0][3]);
+	printf(":      :                               : %-20i : %-20s :\n", &contact.phone_numbers[0][4], &contact.email_addresses[0][4]);
+	printf("==================================================================================================================\n");
 }
 
 Status search_contact(AddressBook *address_book)
-{
-	/* Add the functionality for search contacts here */
-}
-
-Status edit_contact(AddressBook *address_book)
 {
 	int option;
 	char searchWord;
@@ -154,6 +225,66 @@ Status edit_contact(AddressBook *address_book)
 	FILE *fp, *fp1;
 	fp = fopen("contact.txt", "r+:");
 	fp1 = fopen("temp.txt", "w");
+
+	do{
+		menu_header("Search Contact by: ");
+		printf("0. Back\n");
+		printf("1. Name\n");
+		printf("2. Phone No\n");
+		printf("3. Email ID\n");
+		printf("4. Serial No\n");
+		printf("\n");
+		printf("Please select an option: ");
+		
+		option = get_option(NUM, "");
+		if((address_book-> count == 0) && (option != e_first_opt))
+		{
+			get_option(NONE, "No entries found!");
+		}
+
+		switch(option){
+			case e_back://back
+				option = e_exit;
+				break;
+			case e_second_opt://name
+				printf("Enter the Name: ");
+				scanf("%s", searchWord);
+				search(searchWord, address_book, address_book-> count, 1, searchWord, e_search);
+				break;
+			case e_third_opt://phone number
+				printf("Enter the Phone Number: ");
+				scanf("%s", searchWord);
+				search(searchWord, address_book, address_book-> count, 2, searchWord, e_search);
+				break;
+			case e_fourth_opt://email ID
+				printf("Enter the Email ID: ");
+				scanf("%s", searchWord);
+				search(searchWord, address_book, address_book-> count, 3, searchWord, e_search);
+				break;
+			case e_fifth_opt://Serial number
+				printf("Enter the Serial No: ");
+				scanf("%s", searchWord);
+				search(searchWord, address_book, address_book-> count, 4, searchWord, e_search);
+				break;
+			case e_no_opt://no option
+				break;
+		}
+
+	}while(option != e_exit);
+
+	return e_success;
+}
+
+Status edit_contact(AddressBook *address_book)
+{
+	int option;
+	char searchWord;
+    char confirmation;
+    ContactInfo contact;
+
+	FILE *fp, *fp1;
+	fp = fopen("address_book.csv", "r+:");
+	fp1 = fopen("temp.csv", "w");
 
 	menu_header("Search Contact to Edit by: \n");
 	printf("0. Back\n");
@@ -167,7 +298,7 @@ Status edit_contact(AddressBook *address_book)
 	do
 	{
 		option = get_option(NUM, "");
-		if((address_book-> count == 0) && (option != e_first_opt))
+		if((address_book-> count == 0) && (option != e_back))
 		{
 			get_option(NONE, "No entries found!");
 		}
@@ -176,38 +307,267 @@ Status edit_contact(AddressBook *address_book)
 		{
 			//Back
 			case e_back:
-			break;
+                option = e_exit;
+			    break;
 			//Name
-			case e_second_opt:
+			case e_first_opt:
 				printf("Enter the Name: ");
 				scanf("%s", searchWord);
-				search(searchWord, address_book, address_book-> count, searchWord, e_edit);
-				//enter code here to edit by name
-			break;
+				search(searchWord, address_book, address_book-> count, 1, searchWord, e_edit);
+                printf("\nIs this the correct contact? y/n ");
+                scanf("%s", &confirmation);
+                confirmation = tolower(confirmation);
+                if(confirmation == 'y'){
+                    //getting info for contact variable -- from search function
+                    for(int i = 0; i < address_book->count; i++){
+				        contact = address_book->list[i];
+
+				        for(int k = 0; k < NAME_COUNT; k++){
+					        if(strcmp(searchWord, &contact.name[k][0]) == 0)// check name
+					        {
+						        k = NAME_COUNT;
+						        i = address_book->count;
+						        break;
+					        }
+				        }
+			        }
+
+                    int opt1;
+                    menu_header("Please select what you would like to change: \n");
+                    printf("1. Name\n");
+                    printf("2. Phone Number\n");
+                    printf("3. Email ID\n");
+                    printf("\n");
+	                printf("Please select an option: ");
+                    scanf("%i", &opt1);
+                    if(opt1 == 1){
+                        //change the name
+                    }
+                    else if(opt1 == 2){
+                        int opt2;
+                        menu_header("Please select which you would like to change: \n");
+                        printf("1. %s\n", &contact.phone_numbers[0][0]);
+                        printf("2. %s\n", &contact.phone_numbers[0][1]);
+                        printf("3. %s\n", &contact.phone_numbers[0][2]);
+                        printf("4. %s\n", &contact.phone_numbers[0][3]);
+                        printf("5. %s\n", &contact.phone_numbers[0][4]);
+                        printf("\n");
+	                    printf("Please select an option: ");
+                        scanf("%i", &opt2);
+                        char change[34] = contact.phone_numbers[0][opt2-1];
+                        //change the phone
+                    }
+                    else if(opt1 == 3){
+                        int opt2;
+                        menu_header("Please select which you would like to change: \n");
+                        printf("1. %s\n", &contact.email_addresses[0][0]);
+                        printf("2. %s\n", &contact.email_addresses[0][1]);
+                        printf("3. %s\n", &contact.email_addresses[0][2]);
+                        printf("4. %s\n", &contact.email_addresses[0][3]);
+                        printf("5. %s\n", &contact.email_addresses[0][4]);
+                        printf("\n");
+	                    printf("Please select an option: ");
+                        scanf("%i", &opt2);
+                        char change[34] = contact.email_addresses[0][opt2-1];
+                        //change the email
+                    }
+                    else{
+                        printf("No selection chosen, returning to menu.");
+                    }
+
+                }
+                else if(confirmation == 'n'){
+                    printf("Entry could not be found, returning to menu.");
+                }
+                else{
+                    printf("Entry could not be found, returning to menu.");
+                }
+			    break;
 			//Phone No
-			case e_third_opt:
+			case e_second_opt:
 				printf("Enter the Phone Number: ");
 				scanf("%s", searchWord);
-				search(searchWord, address_book, address_book-> count, searchWord, e_edit);
-				//enter code here to edit by phone
-			break;
+				search(searchWord, address_book, address_book-> count, 2, searchWord, e_edit);
+				printf("\nIs this the correct contact? y/n ");
+                scanf("%s", confirmation);
+                confirmation = tolower(confirmation);
+                if(confirmation == 'y'){
+                    //getting info for contact variable -- from search function
+                    for(int i = 0; i < address_book->count; i++){
+				        contact = address_book->list[i];
+
+				        for(int k = 0; k < PHONE_NUMBER_COUNT; k++){
+					        if(strcmp(searchWord, &contact.phone_numbers[k][0]) == 0)// check phone
+					        {
+						        k = PHONE_NUMBER_COUNT;
+						        i = address_book->count;
+						        break;
+					        }
+				        }
+			        }
+
+                    int opt1;
+                    menu_header("Please select what you would like to change: \n");
+                    printf("1. Name\n");
+                    printf("2. Phone Number\n");
+                    printf("3. Email ID\n");
+                    printf("\n");
+	                printf("Please select an option: ");
+                    scanf("%i", &opt1);
+                    if(opt1 == 1){
+                        //change the name
+                    }
+                    else if(opt1 == 2){
+                        int opt2;
+                        menu_header("Please select which you would like to change: \n");
+                        printf("1. %s\n", &contact.phone_numbers[0][0]);
+                        printf("2. %s\n", &contact.phone_numbers[0][1]);
+                        printf("3. %s\n", &contact.phone_numbers[0][2]);
+                        printf("4. %s\n", &contact.phone_numbers[0][3]);
+                        printf("5. %s\n", &contact.phone_numbers[0][4]);
+                        printf("\n");
+	                    printf("Please select an option: ");
+                        scanf("%i", &opt2);
+                        char change[34] = contact.phone_numbers[0][opt2-1];
+                        //change the phone
+                    }
+                    else if(opt1 == 3){
+                        int opt2;
+                        menu_header("Please select which you would like to change: \n");
+                        printf("1. %s\n", &contact.email_addresses[0][0]);
+                        printf("2. %s\n", &contact.email_addresses[0][1]);
+                        printf("3. %s\n", &contact.email_addresses[0][2]);
+                        printf("4. %s\n", &contact.email_addresses[0][3]);
+                        printf("5. %s\n", &contact.email_addresses[0][4]);
+                        printf("\n");
+	                    printf("Please select an option: ");
+                        scanf("%i", &opt2);
+                        char change[34] = contact.email_addresses[0][opt2-1];
+                        //change the email
+                    }
+                    else{
+                        printf("No selection chosen, returning to menu.");
+                    }
+                }
+                else if(confirmation == 'n'){
+                    printf("Entry could not be found, returning to menu.");
+                }
+                else{
+                    printf("Entry could not be found, returning to menu.");
+                }
+			    break;
 			//Email ID
-			case e_fourth_opt:
+			case e_third_opt:
 				printf("Enter the Email ID: ");
 				scanf("%s", searchWord);
-				search(searchWord, address_book, address_book-> count, searchWord, e_edit);
-				//enter code here to edit by email
-			break;
+				search(searchWord, address_book, address_book-> count, 3, searchWord, e_edit);
+				printf("\nIs this the correct contact? y/n ");
+                scanf("%s", confirmation);
+                confirmation = tolower(confirmation);
+                if(confirmation == 'y'){
+                    //getting info for contact variable -- from search function
+                    for(int i = 0; i < address_book->count; i++){
+				        contact = address_book->list[i];
+
+				        for(int k = 0; k < EMAIL_ID_COUNT; k++){
+					        if(strcmp(searchWord, &contact.email_addresses[k][0]) == 0)// check email
+					        {
+						        k = EMAIL_ID_COUNT;
+						        i = address_book->count;
+						        break;
+					        }
+				        }
+			        }
+
+                    int opt1;
+                    menu_header("Please select what you would like to change: \n");
+                    printf("1. Name\n");
+                    printf("2. Phone Number\n");
+                    printf("3. Email ID\n");
+                    printf("\n");
+	                printf("Please select an option: ");
+                    scanf("%i", &opt1);
+                    if(opt1 == 1){
+                        //change the name
+                    }
+                    else if(opt1 == 2){
+                        int opt2;
+                        menu_header("Please select which you would like to change: \n");
+                        printf("1. %s\n", &contact.phone_numbers[0][0]);
+                        printf("2. %s\n", &contact.phone_numbers[0][1]);
+                        printf("3. %s\n", &contact.phone_numbers[0][2]);
+                        printf("4. %s\n", &contact.phone_numbers[0][3]);
+                        printf("5. %s\n", &contact.phone_numbers[0][4]);
+                        printf("\n");
+	                    printf("Please select an option: ");
+                        scanf("%i", &opt2);
+                        char change[34] = contact.phone_numbers[0][opt2-1];
+                        //change the phone
+                    }
+                    else if(opt1 == 3){
+                        int opt2;
+                        menu_header("Please select which you would like to change: \n");
+                        printf("1. %s\n", &contact.email_addresses[0][0]);
+                        printf("2. %s\n", &contact.email_addresses[0][1]);
+                        printf("3. %s\n", &contact.email_addresses[0][2]);
+                        printf("4. %s\n", &contact.email_addresses[0][3]);
+                        printf("5. %s\n", &contact.email_addresses[0][4]);
+                        printf("\n");
+	                    printf("Please select an option: ");
+                        scanf("%i", &opt2);
+                        char change[34] = contact.email_addresses[0][opt2-1];
+                        //change the email
+                    }
+                    else{
+                        printf("No selection chosen, returning to menu.");
+                    }
+                }
+                else if(confirmation == 'n'){
+                    printf("Entry could not be found, returning to menu.");
+                }
+                else{
+                    printf("Entry could not be found, returning to menu.");
+                }
+			    break;
 			//Serial No
-			case e_fifth_opt:
+			case e_fourth_opt:
 				printf("Enter the Serial No: ");
 				scanf("%s", searchWord);
-				search(searchWord, address_book, address_book-> count, searchWord, e_edit);
-				//enter code here to edit by serial
-			break;
+				search(searchWord, address_book, address_book-> count, 4, searchWord, e_edit);
+				printf("\nIs this the correct contact? y/n ");
+                scanf("%s", confirmation);
+                confirmation = tolower(confirmation);
+                if(confirmation == 'y'){
+                    //enter code here to edit by serial
+                    //pseudo
+                    //you will be replacing one element in the list by rewriting into a temp file and overriding the original
+                    //select which youd like to change
+                    //  1. first = name
+                    //  2. second = phone
+                    //      a. select which one 
+                    //          i.  first
+                    //          ii. second
+                    //          iii.third
+                    //          iv. fourth
+                    //          v.  fifth
+                    //  3. third = email
+                    //      a. select which one 
+                    //          i.  first
+                    //          ii. second
+                    //          iii.third
+                    //          iv. fourth
+                    //          v.  fifth
+                }
+                else if(confirmation == 'n'){
+                    printf("Entry could not be found, returning to menu.");
+                }
+                else{
+                    printf("Entry could not be found, returning to menu.");
+                }
+			    break;
 			//No Option
 			case e_no_opt:
-			break;
+			    break;
 		}
 
 	} while (option != e_exit);
