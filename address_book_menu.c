@@ -153,17 +153,18 @@ Status edit_contact(AddressBook *address_book)
     char confirmation;
     ContactInfo contact;
 
-	menu_header("Search Contact to Edit by: \n");
-	printf("0. Back\n");
-	printf("1. Name\n");
-	printf("2. Phone Number\n");
-	printf("3. Email ID\n");
-	printf("4. Serial No.\n");
-	printf("\n");
-	printf("Please select an option: ");
 
 	do
 	{
+        menu_header("Search Contact to Edit by: \n");
+	    printf("0. Back\n");
+	    printf("1. Name\n");
+	    printf("2. Phone Number\n");
+	    printf("3. Email ID\n");
+	    printf("4. Serial No.\n");
+	    printf("\n");
+	    printf("Please select an option: ");
+
 		option = get_option(NUM, "");
 		if((address_book-> count == 0) && (option != e_back))
 		{
@@ -524,17 +525,17 @@ Status delete_contact(AddressBook *address_book)
     ContactInfo contact;
     ContactInfo emptyContact;
 
-	menu_header("Search Contact to Delete by: \n");
-	printf("0. Back\n");
-	printf("1. Name\n");
-	printf("2. Phone Number\n");
-	printf("3. Email ID\n");
-	printf("4. Serial No.\n");
-	printf("\n");
-	printf("Please select an option: ");
-
 	do
 	{
+        menu_header("Search Contact to Delete by: \n");
+	    printf("0. Back\n");
+	    printf("1. Name\n");
+	    printf("2. Phone Number\n");
+	    printf("3. Email ID\n");
+	    printf("4. Serial No.\n");
+	    printf("\n");
+	    printf("Please select an option: ");
+        
 		option = get_option(NUM, "");
 		if((address_book-> count == 0) && (option != e_back))
 		{
