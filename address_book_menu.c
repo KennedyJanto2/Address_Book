@@ -274,7 +274,7 @@ Status edit_contact(AddressBook *address_book)
 				        contact = address_book->list[i];
 
 				        for(int k = 0; k < PHONE_NUMBER_COUNT; k++){
-					        if(strcmp(searchWord, &contact.phone_numbers[k][0]) == 0)// check name
+					        if(strcmp(searchWord, &contact.phone_numbers[k][0]) == 0)// check phone
 					        {
 						        k = PHONE_NUMBER_COUNT;
                                 j = i;
@@ -357,7 +357,7 @@ Status edit_contact(AddressBook *address_book)
 				        contact = address_book->list[i];
 
 				        for(int k = 0; k < EMAIL_ID_COUNT; k++){
-					        if(strcmp(searchWord, &contact.email_addresses[k][0]) == 0)// check name
+					        if(strcmp(searchWord, &contact.email_addresses[k][0]) == 0)// check eamil
 					        {
 						        k = EMAIL_ID_COUNT;
                                 j = i;
@@ -429,6 +429,7 @@ Status edit_contact(AddressBook *address_book)
 			case e_fifth_opt:
 				printf("Enter the Serial No: ");
 				scanf("%s", searchWord);
+                int sino = atoi(searchWord);
 				search(searchWord, address_book, address_book-> count, 4, searchWord, e_edit);
 				printf("\nIs this the correct contact? y/n ");
                 scanf("%s", confirmation);
@@ -439,7 +440,7 @@ Status edit_contact(AddressBook *address_book)
                     for(int i = 0; i < address_book->count; i++){
 				        contact = address_book->list[i];
 
-					    if(address_book->count == contact.si_no) //check serial number
+					    if(sino == contact.si_no) //check serial number
 					    {
                             j = i;
 						    i = address_book->count;
@@ -638,7 +639,7 @@ Status delete_contact(AddressBook *address_book)
 				        contact = address_book->list[i];
 
 				        for(int k = 0; k < PHONE_NUMBER_COUNT; k++){
-					        if(strcmp(searchWord, &contact.phone_numbers[k][0]) == 0)// check name
+					        if(strcmp(searchWord, &contact.phone_numbers[k][0]) == 0)// check phone
 					        {
 						        k = PHONE_NUMBER_COUNT;
                                 j = i;
@@ -715,7 +716,7 @@ Status delete_contact(AddressBook *address_book)
 				        contact = address_book->list[i];
 
 				        for(int k = 0; k < EMAIL_ID_COUNT; k++){
-					        if(strcmp(searchWord, &contact.email_addresses[k][0]) == 0)// check name
+					        if(strcmp(searchWord, &contact.email_addresses[k][0]) == 0)// check email
 					        {
 						        k = EMAIL_ID_COUNT;
                                 j = i;
@@ -781,6 +782,7 @@ Status delete_contact(AddressBook *address_book)
 			case e_fifth_opt:
 				printf("Enter the Serial No: ");
 				scanf("%s", searchWord);
+                int sino = atoi(searchWord);
 				search(searchWord, address_book, address_book-> count, 4, searchWord, e_edit);
 				printf("\nIs this the correct contact? y/n ");
                 scanf("%s", confirmation);
@@ -791,7 +793,7 @@ Status delete_contact(AddressBook *address_book)
                     for(int i = 0; i < address_book->count; i++){
 				        contact = address_book->list[i];
 
-					    if(address_book->count == contact.si_no) //check serial number
+					    if(sino == contact.si_no) //check serial number
 					    {
                             j = i;
 						    i = address_book->count;
