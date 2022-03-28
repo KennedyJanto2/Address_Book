@@ -81,7 +81,7 @@ Status save_prompt(AddressBook *address_book)
 	return e_success;
 }
 
-Status list_contacts(AddressBook *address_book, const char *title, int *index, const char *msg, Modes mode)
+Status list_contacts(AddressBook *address_book, const char *title, int index, const char *msg, Modes mode)
 {
 	/* 
 	 * Add code to list all the contacts availabe in address_book.csv file
@@ -89,7 +89,6 @@ Status list_contacts(AddressBook *address_book, const char *title, int *index, c
 	 * The menu provide navigation option if the entries increase the page size
 	 */ 
 	int option;
-	int loc = *index;
 
 	menu_header("All Contacts: ");
 	printf("(Page %d of %d):\n", (index+1), (address_book->count));
@@ -98,8 +97,8 @@ Status list_contacts(AddressBook *address_book, const char *title, int *index, c
 		printf(": S.No  : Name                            : Phone No                        : Email ID                        :\n");
 		printf("===============================================================================================================\n");
 
-		printf(": %d", address_book->list[loc].si_no);
-		if (address_book->list[loc].si_no < 10) 
+		printf(": %d", address_book->list[index].si_no);
+		if (address_book->list[index].si_no < 10) 
 		{
 			for (int i = 0; i < 5; i++)
 				printf(" ");
@@ -109,23 +108,23 @@ Status list_contacts(AddressBook *address_book, const char *title, int *index, c
 			for (int i = 0; i < 4; i++)
 				printf(" ");
 		}
-		printf(":%s", &address_book->list[loc].name[0][0]);
-		for (int i = 32 - strlen(&address_book->list[loc].name[0][0]); i > 0; i--) 
+		printf(":%s", &address_book->list[index].name[0][0]);
+		for (int i = 32 - strlen(&address_book->list[index].name[0][0]); i > 0; i--) 
 		{
 			printf(" ");
 		}
 
-		int PhoneNum = sizeof address_book->list[loc].phone_numbers / sizeof *address_book->list[loc].phone_numbers;
+		int PhoneNum = sizeof address_book->list[index].phone_numbers / sizeof *address_book->list[index].phone_numbers;
 		int phonesPrinted = 0;
-		int EmailNum = sizeof address_book->list[loc].email_addresses / sizeof *address_book->list[loc].email_addresses;
+		int EmailNum = sizeof address_book->list[index].email_addresses / sizeof *address_book->list[index].email_addresses;
 		int emailsPrinted = 0;
 	
 		if (PhoneNum > 0) //more than 1 phone
 		{
-			printf(":%s", &address_book->list[loc].phone_numbers[0][0]);
+			printf(":%s", &address_book->list[index].phone_numbers[0][0]);
 			phonesPrinted++;
-			for (int i = 32 - strlen(&address_book->list[loc].phone_numbers[0][0]); i > 0; i--)
-					printf(" ");
+			for (int i = 32 - strlen(&address_book->list[index].phone_numbers[0][0]); i > 0; i--)
+				printf(" ");
 		} 
 		else //online 1 phone
 		{	
@@ -137,9 +136,9 @@ Status list_contacts(AddressBook *address_book, const char *title, int *index, c
 
 		if (EmailNum > 0) //more than 1 email
 		{
-			printf(":%s", &address_book->list[loc].email_addresses[0][0]);
+			printf(":%s", &address_book->list[index].email_addresses[0][0]);
 			emailsPrinted++;
-			for (int i = 32 - strlen(&address_book->list[loc].email_addresses[0][0]); i > 0; i--)
+			for (int i = 32 - strlen(&address_book->list[index].email_addresses[0][0]); i > 0; i--)
 				printf(" ");
 		} 
 		else //only 1 email
@@ -156,8 +155,8 @@ Status list_contacts(AddressBook *address_book, const char *title, int *index, c
 			printf(":      :                                ");
 
 			if (phonesPrinted < PhoneNum) {
-				printf(":%s", &address_book->list[loc].phone_numbers[phonesPrinted][0]);
-				for (int m = 32 - strlen(&address_book->list[loc].phone_numbers[phonesPrinted][0]); m > 0; m--){
+				printf(":%s", &address_book->list[index].phone_numbers[phonesPrinted][0]);
+				for (int m = 32 - strlen(&address_book->list[index].phone_numbers[phonesPrinted][0]); m > 0; m--){
 					printf(" ");
 				}
 				phonesPrinted++;
@@ -170,8 +169,8 @@ Status list_contacts(AddressBook *address_book, const char *title, int *index, c
 				
 			if (emailsPrinted < EmailNum) 
 			{
-				printf(":%s", &address_book->list[loc].email_addresses[emailsPrinted][0]);
-				for (int l = 32 - strlen(&address_book->list[loc].email_addresses[emailsPrinted][0]); l > 0; l--){
+				printf(":%s", &address_book->list[index].email_addresses[emailsPrinted][0]);
+				for (int l = 32 - strlen(&address_book->list[index].email_addresses[emailsPrinted][0]); l > 0; l--){
 					printf(" ");
 				}
 				emailsPrinted++;
@@ -198,7 +197,7 @@ Status list_contacts(AddressBook *address_book, const char *title, int *index, c
 		} 
 		else if(option == 2) 
 		{
-			if(loc < (address_book->count-1)) 
+			if(index < (address_book->count-1)) 
 			{
 				index++;
 				list_contacts(address_book, "", index, "", e_list_contacts);
@@ -210,7 +209,7 @@ Status list_contacts(AddressBook *address_book, const char *title, int *index, c
 		} 
 		else if(option == 1)
 		{
-			if (loc > 0) 
+			if (index > 0) 
 			{
 				index--;
 				list_contacts(address_book, "", index, "", e_list_contacts);
@@ -441,7 +440,7 @@ Status search(const char *str, AddressBook *address_book, int loop_count, int fi
 			break;
 	}
 
-	//printing output
+	//output
 	menu_header("Search Results: ");
 	if(found == 0){
 		printf("\nContact was not found.\n");
