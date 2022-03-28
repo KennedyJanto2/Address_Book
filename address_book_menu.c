@@ -366,7 +366,7 @@ Status add_contacts(AddressBook *address_book)
 		return e_success;
 }
 
-Status search(const char *str, AddressBook *address_book, int loop_count, int field, const char *msg, Modes mode)
+Status search(const char *str, AddressBook *address_book, int serialNo, int field, const char *msg, Modes mode)
 {
 	ContactInfo contact;
 	int found = 0;
@@ -376,7 +376,7 @@ Status search(const char *str, AddressBook *address_book, int loop_count, int fi
 		case 1://search by name
 			for(int i = 0; i < address_book->count; i++)
 			{
-				ContactInfo contact = address_book->list[i];
+				contact = address_book->list[i];
 
 				for(int k = 0; k < NAME_COUNT; k++)
 				{
@@ -394,7 +394,7 @@ Status search(const char *str, AddressBook *address_book, int loop_count, int fi
 		case 2://search by phone
 			for(int i = 0; i < address_book->count; i++)
 			{
-				ContactInfo contact = address_book->list[i];
+				contact = address_book->list[i];
 
 				for(int k = 0; k < PHONE_NUMBER_COUNT; k++)
 				{
@@ -412,7 +412,7 @@ Status search(const char *str, AddressBook *address_book, int loop_count, int fi
 		case 3://search by email
 			for(int i = 0; i < address_book->count; i++)
 			{
-				ContactInfo contact = address_book->list[i];
+				contact = address_book->list[i];
 				for(int k = 0; k < EMAIL_ID_COUNT; k++){
 					if(strcmp(str, &contact.email_addresses[k][0]) == 0)// check email id
 					{
@@ -424,11 +424,12 @@ Status search(const char *str, AddressBook *address_book, int loop_count, int fi
 				}
 			}
 			break;
-		case 4:
+		case 4://search by serial number
+			serialNo = atoi(str);
 			for(int i = 0; i < address_book->count; i++)
 			{
-				ContactInfo contact = address_book->list[i];
-				if(loop_count == contact.si_no) //check serial number
+				contact = address_book->list[i];
+				if(serialNo == contact.si_no) //check serial number
 				{
 					found = 1;
 					i = address_book->count;
@@ -497,7 +498,7 @@ Status search(const char *str, AddressBook *address_book, int loop_count, int fi
 
 		for (int k = 0; k < 4; k++)
 		{
-			printf(":      :                                ");
+			printf(":       :                                ");
 
 			if (phonesPrinted < PhoneNum)
 			{
