@@ -580,9 +580,10 @@ Status delete_contact(AddressBook *address_book)
 	                printf("Please select an option: \n");
                     scanf("%i", &opt1);
                     if(opt1 == 1){
-                        for(int i=0; i<(address_book->count-1); i++){
+                        for(int i=j; i<(address_book->count-1); i++){
                             address_book->list[i] = address_book->list[i+1];
                         }
+                        address_book->list[address_book->count-1] = emptyContact;
                     }
                     else if(opt1 == 2){
                         int opt2;
@@ -656,9 +657,10 @@ Status delete_contact(AddressBook *address_book)
 	                printf("Please select an option: \n");
                     scanf("%i", &opt1);
                     if(opt1 == 1){
-                        for(int i=0; i<(address_book->count-1); i++){
+                        for(int i=j; i<(address_book->count-1); i++){
                             address_book->list[i] = address_book->list[i+1];
                         }
+                        address_book->list[address_book->count-1] = emptyContact;
                     }
                     else if(opt1 == 2){
                         int opt2;
@@ -732,9 +734,10 @@ Status delete_contact(AddressBook *address_book)
 	                printf("Please select an option: \n");
                     scanf("%i", &opt1);
                     if(opt1 == 1){
-                        for(int i=0; i<(address_book->count-1); i++){
+                        for(int i=j; i<(address_book->count-1); i++){
                             address_book->list[i] = address_book->list[i+1];
                         }
+                        address_book->list[address_book->count-1] = emptyContact;
                     }
                     else if(opt1 == 2){
                         int opt2;
@@ -805,9 +808,10 @@ Status delete_contact(AddressBook *address_book)
 	                printf("Please select an option: \n");
                     scanf("%i", &opt1);
                     if(opt1 == 1){
-                        for(int i=0; i<(address_book->count-1); i++){
+                        for(int i=j; i<(address_book->count-1); i++){
                             address_book->list[i] = address_book->list[i+1];
                         }
+                        address_book->list[address_book->count-1] = emptyContact;
                     }
                     else if(opt1 == 2){
                         int opt2;
