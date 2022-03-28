@@ -173,11 +173,11 @@ Status edit_contact(AddressBook *address_book)
 		switch(option)
 		{
 			//Back
-			case e_back:
+			case e_first_opt:
                 menu(address_book);
 			    break;
 			//Name
-			case e_first_opt:
+			case e_second_opt:
 				printf("Enter the Name: ");
 				scanf("%s", searchWord);
 				search(searchWord, address_book, address_book-> count, 1, searchWord, e_edit);
@@ -260,7 +260,7 @@ Status edit_contact(AddressBook *address_book)
                 }
 			    break;
 			//Phone No
-			case e_second_opt:
+			case e_third_opt:
 				printf("Enter the Phone Number: ");
 				scanf("%s", searchWord);
 				search(searchWord, address_book, address_book-> count, 2, searchWord, e_edit);
@@ -343,7 +343,7 @@ Status edit_contact(AddressBook *address_book)
                 }
 			    break;
 			//Email ID
-			case e_third_opt:
+			case e_fourth_opt:
 				printf("Enter the Email ID: ");
 				scanf("%s", searchWord);
 				search(searchWord, address_book, address_book-> count, 3, searchWord, e_edit);
@@ -426,7 +426,7 @@ Status edit_contact(AddressBook *address_book)
                 }
 			    break;
 			//Serial No
-			case e_fourth_opt:
+			case e_fifth_opt:
 				printf("Enter the Serial No: ");
 				scanf("%s", searchWord);
 				search(searchWord, address_book, address_book-> count, 4, searchWord, e_edit);
@@ -543,11 +543,11 @@ Status delete_contact(AddressBook *address_book)
 		switch(option)
 		{
 			//Back
-			case e_back:
+			case e_first_opt:
                 menu(address_book);
 			    break;
 			//Name
-			case e_first_opt:
+			case e_second_opt:
 				printf("Enter the Name: ");
 				scanf("%s", searchWord);
 				search(searchWord, address_book, address_book-> count, 1, searchWord, e_edit);
@@ -623,7 +623,7 @@ Status delete_contact(AddressBook *address_book)
                 }
 			    break;
 			//Phone No
-			case e_second_opt:
+			case e_third_opt:
 				printf("Enter the Phone Number: ");
 				scanf("%s", searchWord);
 				search(searchWord, address_book, address_book-> count, 2, searchWord, e_edit);
@@ -699,7 +699,7 @@ Status delete_contact(AddressBook *address_book)
                 }
 			    break;
 			//Email ID
-			case e_third_opt:
+			case e_fourth_opt:
 				printf("Enter the Email ID: ");
 				scanf("%s", searchWord);
 				search(searchWord, address_book, address_book-> count, 3, searchWord, e_edit);
@@ -775,7 +775,7 @@ Status delete_contact(AddressBook *address_book)
                 }
 			    break;
 			//Serial No
-			case e_fourth_opt:
+			case e_fifth_opt:
 				printf("Enter the Serial No: ");
 				scanf("%s", searchWord);
 				search(searchWord, address_book, address_book-> count, 4, searchWord, e_edit);
