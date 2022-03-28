@@ -210,10 +210,10 @@ Status edit_contact(AddressBook *address_book)
 	                printf("Please select an option: \n");
                     scanf("%i", &opt1);
                     if(opt1 == 1){
-                        char newName;
+                        char newName[32];
                         printf("What would you like to change it to: \n");
                         scanf("%s", &newName);
-                        *address_book->list[j].name[0] = newName;
+                        strcpy(address_book->list[j].name[0],newName);
                     }
                     else if(opt1 == 2){
                         int opt2;
@@ -226,10 +226,10 @@ Status edit_contact(AddressBook *address_book)
                         printf("\n");
 	                    printf("Please select an option: \n");
                         scanf("%i", &opt2);
-                        char newPhone;
+                        char newPhone[32];
                         printf("What would you like to change it to: \n");
                         scanf("%s", &newPhone);
-                        *address_book->list[j].phone_numbers[opt2-1] = newPhone;
+                        strcpy(address_book->list[j].phone_numbers[opt2-1],newPhone);
                     }
                     else if(opt1 == 3){
                         int opt2;
@@ -242,10 +242,10 @@ Status edit_contact(AddressBook *address_book)
                         printf("\n");
 	                    printf("Please select an option: \n");
                         scanf("%i", &opt2);
-                        char newEmail;
+                        char newEmail[32];
                         printf("What would you like to change it to: \n");
                         scanf("%s", &newEmail);
-                        *address_book->list[j].email_addresses[opt2-1] = newEmail;
+                        strcpy(address_book->list[j].email_addresses[opt2-1],newEmail);
                     }
                     else{
                         printf("No selection chosen, returning to menu.");
@@ -293,10 +293,10 @@ Status edit_contact(AddressBook *address_book)
 	                printf("Please select an option: \n");
                     scanf("%i", &opt1);
                     if(opt1 == 1){
-                        char newName;
+                        char newName[32];
                         printf("What would you like to change it to: \n");
                         scanf("%s", &newName);
-                        *address_book->list[j].name[0] = newName;
+                        strcpy(address_book->list[j].name[0],newName);
                     }
                     else if(opt1 == 2){
                         int opt2;
@@ -309,10 +309,10 @@ Status edit_contact(AddressBook *address_book)
                         printf("\n");
 	                    printf("Please select an option: \n");
                         scanf("%i", &opt2);
-                        char newPhone;
+                        char newPhone[32];
                         printf("What would you like to change it to: \n");
                         scanf("%s", &newPhone);
-                        *address_book->list[j].phone_numbers[opt2-1] = newPhone;
+                        strcpy(address_book->list[j].phone_numbers[opt2-1],newPhone);
                     }
                     else if(opt1 == 3){
                         int opt2;
@@ -325,10 +325,10 @@ Status edit_contact(AddressBook *address_book)
                         printf("\n");
 	                    printf("Please select an option: \n");
                         scanf("%i", &opt2);
-                        char newEmail;
+                        char newEmail[32];
                         printf("What would you like to change it to: \n");
                         scanf("%s", &newEmail);
-                        *address_book->list[j].email_addresses[opt2-1] = newEmail;
+                        strcpy(address_book->list[j].email_addresses[opt2-1],newEmail);
                     }
                     else{
                         printf("No selection chosen, returning to menu.");
@@ -376,10 +376,10 @@ Status edit_contact(AddressBook *address_book)
 	                printf("Please select an option: \n");
                     scanf("%i", &opt1);
                     if(opt1 == 1){
-                        char newName;
+                        char newName[32];
                         printf("What would you like to change it to: \n");
                         scanf("%s", &newName);
-                        *address_book->list[j].name[0] = newName;
+                        strcpy(address_book->list[j].name[0],newName);
                     }
                     else if(opt1 == 2){
                         int opt2;
@@ -392,10 +392,10 @@ Status edit_contact(AddressBook *address_book)
                         printf("\n");
 	                    printf("Please select an option: \n");
                         scanf("%i", &opt2);
-                        char newPhone;
+                        char newPhone[32];
                         printf("What would you like to change it to: \n");
                         scanf("%s", &newPhone);
-                        *address_book->list[j].phone_numbers[opt2-1] = newPhone;
+                        strcpy(address_book->list[j].phone_numbers[opt2-1],newPhone);
                     }
                     else if(opt1 == 3){
                         int opt2;
@@ -408,10 +408,10 @@ Status edit_contact(AddressBook *address_book)
                         printf("\n");
 	                    printf("Please select an option: \n");
                         scanf("%i", &opt2);
-                        char newEmail;
+                        char newEmail[32];
                         printf("What would you like to change it to: \n");
                         scanf("%s", &newEmail);
-                        *address_book->list[j].email_addresses[opt2-1] = newEmail;
+                        strcpy(address_book->list[j].email_addresses[opt2-1],newEmail);
                     }
                     else{
                         printf("No selection chosen, returning to menu.");
@@ -457,10 +457,10 @@ Status edit_contact(AddressBook *address_book)
 	                printf("Please select an option: \n");
                     scanf("%i", &opt1);
                     if(opt1 == 1){
-                        char newName;
+                        char newName[32];
                         printf("What would you like to change it to: \n");
                         scanf("%s", &newName);
-                        *address_book->list[j].name[0] = newName;
+                        strcpy(address_book->list[j].name[0],newName);
                     }
                     else if(opt1 == 2){
                         int opt2;
@@ -473,10 +473,10 @@ Status edit_contact(AddressBook *address_book)
                         printf("\n");
 	                    printf("Please select an option: \n");
                         scanf("%i", &opt2);
-                        char newPhone;
+                        char newPhone[32];
                         printf("What would you like to change it to: \n");
                         scanf("%s", &newPhone);
-                        *address_book->list[j].phone_numbers[opt2-1] = newPhone;
+                        strcpy(address_book->list[j].phone_numbers[opt2-1],newPhone);
                     }
                     else if(opt1 == 3){
                         int opt2;
@@ -489,10 +489,10 @@ Status edit_contact(AddressBook *address_book)
                         printf("\n");
 	                    printf("Please select an option: \n");
                         scanf("%i", &opt2);
-                        char newEmail;
+                        char newEmail[32];
                         printf("What would you like to change it to: \n");
                         scanf("%s", &newEmail);
-                        *address_book->list[j].email_addresses[opt2-1] = newEmail;
+                        strcpy(address_book->list[j].email_addresses[opt2-1],newEmail);
                     }
                     else{
                         printf("No selection chosen, returning to menu.");
