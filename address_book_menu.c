@@ -437,7 +437,7 @@ Status edit_contact(AddressBook *address_book)
                     //enter code here to edit by serial
                     int j;
                     for(int i = 0; i < address_book->count; i++){
-				        ContactInfo contact = address_book->list[i];
+				        contact = address_book->list[i];
 
 					    if(address_book->count == contact.si_no) //check serial number
 					    {
@@ -789,7 +789,7 @@ Status delete_contact(AddressBook *address_book)
                     //enter code here to edit by serial
                     int j;
                     for(int i = 0; i < address_book->count; i++){
-				        ContactInfo contact = address_book->list[i];
+				        contact = address_book->list[i];
 
 					    if(address_book->count == contact.si_no) //check serial number
 					    {
