@@ -558,22 +558,22 @@ Status search_contact(AddressBook *address_book)
 			case e_second_opt://name
 				printf("Enter the Name: ");
 				scanf("%s", searchWord);
-				search(searchWord, address_book, address_book-> count, option, "", e_search);
+				search(searchWord, address_book, address_book-> count, 1, "", e_search);
 				break;
 			case e_third_opt://phone number
 				printf("Enter the Phone Number: ");
 				scanf("%s", searchWord);
-				search(searchWord, address_book, address_book-> count, option, "", e_search);
+				search(searchWord, address_book, address_book-> count, 2, "", e_search);
 				break;
 			case e_fourth_opt://email ID
 				printf("Enter the Email ID: ");
 				scanf("%s", searchWord);
-				search(searchWord, address_book, address_book-> count, option, "", e_search);
+				search(searchWord, address_book, address_book-> count, 3, "", e_search);
 				break;
 			case e_fifth_opt://Serial number
 				printf("Enter the Serial No: ");
 				scanf("%s", searchWord);
-				search(searchWord, address_book, address_book-> count, option, "", e_search);
+				search(searchWord, address_book, address_book-> count, 4, "", e_search);
 				break;
 			case e_no_opt://no option
 				break;
