@@ -525,6 +525,12 @@ Status search(const char *str, AddressBook *address_book, int loop_count, int fi
 		}
 
 		printf("===========================================================================================================\n");
+
+		char exit;
+		do{//stays till user exits
+			printf("Press: [q] | Cancel: ");
+			exit = getchar();
+		}while(exit != 'q');
 		return e_success;
 	}
 	
